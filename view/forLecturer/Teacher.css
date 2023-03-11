@@ -1,0 +1,90 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Feb 19, 2023, 10:41:24 PM
+    Author     : nguye
+*/
+
+
+body{
+    margin: 50px 100px;
+    /* padding: 50px; */
+}
+
+h1{
+    margin-top: 40px;
+    margin-left: 60px;
+}
+
+.toolbar{
+    background-color: rgb(247, 247, 247);
+    padding: 10px 30px;
+}
+
+.toolbar a{
+    text-decoration: none;
+    color: black;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+#campus{
+    text-align: center;
+}
+
+#lecturer{
+    text-align: center;
+}
+
+#lecturer select{
+    width: 100px;
+}
+
+table{
+    width: 100%;
+    text-align: left;
+    font-weight: lighter;
+    /* font-size: 10px; */
+}
+
+th{
+    border-right: 0.1px white solid;
+    background-color: rgb(125, 125, 255);
+    font-weight: 100;
+}
+
+td{
+    border-bottom: 1px gray solid;
+    width: auto;
+}
+
+#home{
+    color: dodgerblue;
+}
+
+.attend{
+    color: rgb(51, 192, 51);
+}
+
+.slot{
+    width: 200px;
+}
+
+time{
+    background-color: rgb(51, 192, 51);
+    padding: 1px 2px;
+    color: white;
+    font-size: 12px;
+}
+
+.absent, .notYet{
+    color: red;
+}
+
+a{
+    text-decoration: none;
+    color: cornflowerblue;
+}
+
