@@ -4,21 +4,32 @@
  */
 package model;
 
+import java.util.ArrayList;
+
 /**
  *
- * @author nguye
+ * @author sonnt
  */
 public class User {
+    private int userid;
     private String username;
     private String password;
-    private boolean object;
+    private ArrayList<Role> roles;
 
-    public boolean isObject() {
-        return object;
+    public ArrayList<Role> getRoles() {
+        return roles;
     }
 
-    public void setObject(boolean object) {
-        this.object = object;
+    public void setRoles(ArrayList<Role> roles) {
+        this.roles = roles;
+    }
+
+    public int getUserid() {
+        return userid;
+    }
+
+    public void setUserid(int userid) {
+        this.userid = userid;
     }
 
     public String getUsername() {
@@ -36,5 +47,5 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
 }

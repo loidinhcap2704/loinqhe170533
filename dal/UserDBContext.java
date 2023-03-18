@@ -11,40 +11,59 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Department;
+import model.Role;
 import model.Student;
 import model.User;
 
 /**
  *
- * @author nguye
+ * @author sonnt
  */
-public class UserDBContext extends DBContext<User>{
-    
-    public User get(String username, String password){
-        PreparedStatement stm=null;
+public class UserDBContext extends DBContext<User> {
+
+    public User get(String username, String password) {
+        String sql = "SELECT TOP (1000) R.[roleid]\n"
+                + "      ,[url]\n"
+                + "      ,[name]\n"
+                + "	 ,u.userid\n"
+                + "  FROM [Assignment2].[dbo].[Role] r\n"
+                + "  INNER JOIN Feture f on r.roleid = f.roleid\n"
+                + "  INNER JOIN [User]	u on u.userid = f.userid\n"
+                + "  WHERE u.username = ? and u.password = ?";
+        PreparedStatement stm = null;
         ResultSet rs = null;
-        String sql = "SELECT username, password, object\n" +
-                "FROM [User]\n" +
-                "WHERE username=?\n" +
-                "AND password=?";
         try {
             stm = connection.prepareStatement(sql);
             stm.setString(1, username);
             stm.setString(2, password);
             rs = stm.executeQuery();
-            if(rs.next()){
-                User user = new User();
-                user.setUsername(rs.getString("username"));
-                user.setPassword(rs.getString("password"));
-                user.setObject(rs.getBoolean("object"));
-                return user;
+            User s = new User();
+            ArrayList<Role> roles = new ArrayList<>();
+            while(rs.next()) {
+                s.setUserid(rs.getInt("userid"));
+                Role role = new Role();
+                role.setRoleid(rs.getInt("roleid"));
+                role.setUrl(rs.getString("url"));
+                role.setName(rs.getString("name"));
+                roles.add(role);
             }
+            s.setRoles(roles);
+            return s;
         } catch (SQLException ex) {
             Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
+        } finally {
             try {
                 rs.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            try {
                 stm.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
                 connection.close();
             } catch (SQLException ex) {
                 Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
@@ -55,24 +74,7 @@ public class UserDBContext extends DBContext<User>{
 
     @Override
     public void insert(User model) {
-        PreparedStatement stm = null;
-        try {
-            String sql = "INSERT INTO [User](username,password,object) VALUES(?,?,?)";
-            stm = connection.prepareStatement(sql);
-            stm.setString(1, model.getUsername());
-            stm.setString(2, "123456");
-            stm.setBoolean(3, model.isObject());
-            stm.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(StudentDBContext.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                stm.close();
-                connection.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(StudentDBContext.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
@@ -92,35 +94,7 @@ public class UserDBContext extends DBContext<User>{
 
     @Override
     public ArrayList<User> all() {
-        ArrayList<User> users = new ArrayList<>();
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        String sql = "SELECT username, object\n" +
-                    "FROM [User]";
-        try {
-            stm = connection.prepareStatement(sql);
-            rs = stm.executeQuery();
-            while(rs.next()){
-                User s = new User();
-                s.setUsername(rs.getString("username"));
-                s.setObject(rs.getBoolean("object"));
-                
-                
-                users.add(s);
-                
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(StudentDBContext.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
-            try {
-                rs.close();
-                stm.close();
-                connection.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(StudentDBContext.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        return users;
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
 }

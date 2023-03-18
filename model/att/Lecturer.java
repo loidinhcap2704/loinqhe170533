@@ -2,29 +2,36 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package model;
+package model.att;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import model.User;
 
 /**
  *
  * @author sonnt
  */
-public class Student {
+public class Lecturer {
     private int id;
     private String name;
     private boolean gender;
     private Date dob;
-    private Department dept;
-    private int currentTerm;
-    private User user;
 
-    public int getCurrentTerm() {
-        return currentTerm;
+    public boolean isGender() {
+        return gender;
     }
 
-    public void setCurrentTerm(int currentTerm) {
-        this.currentTerm = currentTerm;
+    public void setGender(boolean gender) {
+        this.gender = gender;
+    }
+
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
     }
 
     public User getUser() {
@@ -34,16 +41,9 @@ public class Student {
     public void setUser(User user) {
         this.user = user;
     }
-    
+    private User user;
+    private ArrayList<Session> sessions = new ArrayList<>();
 
-    public Department getDept() {
-        return dept;
-    }
-
-    public void setDept(Department dept) {
-        this.dept = dept;
-    }
-    
     public int getId() {
         return id;
     }
@@ -60,20 +60,12 @@ public class Student {
         this.name = name;
     }
 
-    public boolean isGender() {
-        return gender;
+    public ArrayList<Session> getSessions() {
+        return sessions;
     }
 
-    public void setGender(boolean gender) {
-        this.gender = gender;
-    }
-
-    public Date getDob() {
-        return dob;
-    }
-
-    public void setDob(Date dob) {
-        this.dob = dob;
+    public void setSessions(ArrayList<Session> sessions) {
+        this.sessions = sessions;
     }
     
 }

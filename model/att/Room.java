@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package model;
+package model.att;
 
 import java.util.ArrayList;
 
@@ -10,10 +10,10 @@ import java.util.ArrayList;
  *
  * @author sonnt
  */
-public class Department {
+public class Room {
     private int id;
     private String name;
-    private ArrayList<Student> students = new ArrayList<>();
+    private ArrayList<Session> sessions = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -31,12 +31,12 @@ public class Department {
         this.name = name;
     }
 
-    public ArrayList<Student> getStudents() {
-        return students;
+    public ArrayList<Session> getSessions() {
+        return sessions;
     }
 
-    public void setStudents(ArrayList<Student> students) {
-        this.students = students;
+    public void setSessions(ArrayList<Session> sessions) {
+        this.sessions = sessions;
     }
     
 }
