@@ -26,6 +26,7 @@ public class UserDBContext extends DBContext<User> {
                 + "      ,[url]\n"
                 + "      ,[name]\n"
                 + "	 ,u.userid\n"
+                + "      ,u.username"
                 + "  FROM [Assignment2].[dbo].[Role] r\n"
                 + "  INNER JOIN Feture f on r.roleid = f.roleid\n"
                 + "  INNER JOIN [User]	u on u.userid = f.userid\n"
@@ -41,6 +42,7 @@ public class UserDBContext extends DBContext<User> {
             ArrayList<Role> roles = new ArrayList<>();
             while(rs.next()) {
                 s.setUserid(rs.getInt("userid"));
+                s.setUsername(rs.getString("username"));
                 Role role = new Role();
                 role.setRoleid(rs.getInt("roleid"));
                 role.setUrl(rs.getString("url"));

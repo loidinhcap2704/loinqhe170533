@@ -18,6 +18,7 @@ import java.sql.Date;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import model.User;
 import model.att.Session;
 import model.att.TimeSlot;
@@ -33,23 +34,38 @@ public class TimeTableController extends BaseRequiredAuthenticatedController {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
      * @param response servlet response
+     * @param user
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response, User user)
     throws ServletException, IOException {
-        int lid = user.getUserid();
+        LecturerDBContext lecdb = new LecturerDBContext();
+        int lid = lecdb.getLid(user.getUserid());
+        LocalDate thismonday = LocalDate.parse(request.getParameter("from"));
+        System.out.println(thismonday);
         Date from = Date.valueOf(request.getParameter("from"));
-        Date to = Date.valueOf(request.getParameter("to"));
+        Date to = Date.valueOf(thismonday.with(DayOfWeek.SUNDAY));
         ArrayList<Date> dates = DateTimeHelper.getListDates(from, to);
         TimeSlotDBContext dbSlot = new TimeSlotDBContext();
         ArrayList<TimeSlot> slots = dbSlot.all();
         LecturerDBContext lecDb = new LecturerDBContext();
         ArrayList<Session> sessions = lecDb.getSessions(lid);
         
+        //get all week of the year
+        List<LocalDate> mondays = DateTimeHelper.getAllMondaysOfYear(thismonday);
+        List<LocalDate> sundays = new ArrayList<>();
+        for(LocalDate monday: mondays){
+            LocalDate sunday = monday.plusDays(6);
+            sundays.add(sunday);
+        }
+        
         request.setAttribute("slots", slots);
         request.setAttribute("dates", dates);
         request.setAttribute("sessions", sessions);
+        request.setAttribute("thismonday", thismonday);
+        request.setAttribute("mondays", mondays);
+        request.setAttribute("sundays", sundays);
         request.getRequestDispatcher("../view/att/lecturer/timetable.jsp").forward(request, response);
         
     } 
@@ -59,6 +75,7 @@ public class TimeTableController extends BaseRequiredAuthenticatedController {
      * Handles the HTTP <code>GET</code> method.
      * @param request servlet request
      * @param response servlet response
+     * @param user
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
@@ -76,9 +93,22 @@ public class TimeTableController extends BaseRequiredAuthenticatedController {
         LecturerDBContext lecDb = new LecturerDBContext();
         ArrayList<Session> sessions = lecDb.getSessions(lid);
         
+        //take week of the year
+        LocalDate now = LocalDate.now();
+        LocalDate thismonday = DateTimeHelper.getMondayOfWeek(now);
+        List<LocalDate> mondays = DateTimeHelper.getAllMondaysOfYear(thismonday);
+        List<LocalDate> sundays = new ArrayList<>();
+        for(LocalDate monday: mondays){
+            LocalDate sunday = monday.plusDays(6);
+            sundays.add(sunday);
+        }
+        
         request.setAttribute("slots", slots);
         request.setAttribute("dates", dates);
         request.setAttribute("sessions", sessions);
+        request.setAttribute("thismonday", thismonday);
+        request.setAttribute("mondays", mondays);
+        request.setAttribute("sundays", sundays);
         request.getRequestDispatcher("../view/att/lecturer/timetable.jsp").forward(request, response);
     } 
 

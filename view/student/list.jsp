@@ -1,6 +1,6 @@
 <%-- 
     Document   : list
-    Created on : Feb 9, 2023, 9:24:01 AM
+    Created on : Feb 10, 2023, 4:46:06 PM
     Author     : sonnt
 --%>
 
@@ -12,20 +12,19 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <script>
+        <script> 
             function deleteStudent(id)
             {
-                var a = confirm("Are you sure?");
-                if (a)
+                var a = confirm("are you sure?");
+                if(a)
                 {
-                    window.location.href = 'delete?id=' + id;
+                    window.location.href='delete?id='+id;
                 }
             }
-
         </script>
     </head>
     <body>
-        <table border="1px">
+        <table border="1px"> 
             <tr>
                 <td>Id</td>
                 <td>Name</td>
@@ -35,23 +34,22 @@
                 <td></td>
                 <td></td>
             </tr>
-            <c:forEach items="${requestScope.students}" var="s">
+            <c:forEach items="${requestScope.students}" var="s" varStatus="loop">
                 <tr>
-                    <td>${s.sid}</td>
-                    <td>${s.sname}</td>
+                    <td>${s.id}</td>
+                    <td>${s.name}</td>
+                    <td><input type="checkbox" 
+                               <c:if test="${s.gender}">checked="checked"</c:if>
+                               /></td>
                     <td>
-                        <input type="checkbox" 
-                               <c:if test="${s.gender}">
-                                   checked="checked"
-                               </c:if>    
-                               />
+                <fmt:formatDate type = "date" 
+         value = "${s.dob}" />
                     </td>
-                    <td><fmt:formatDate type = "date" 
-                                    value = "${s.dob}" /></td>
-                    <td>${s.dept.dname}</td>
-                    <td><input type="button" onclick="window.location.href = 'update?id=${s.sid}'" value="Update"/></td>
-                    <td><input type="button" onclick="deleteStudent(${s.sid});" value="Delete"/></td>
+                    <td>${s.dept.name}</td>
+                    <td><input type="button" onclick="window.location.href='update?id=${s.id}'" value="Update"/></td>
+                <td><input type="button" onclick="deleteStudent(${s.id});" value="Delete"/></td>
                 </tr>
+                
             </c:forEach>
         </table>
         <a href="add">Create new Student</a>

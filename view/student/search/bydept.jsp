@@ -1,6 +1,6 @@
 <%-- 
     Document   : bydept
-    Created on : Feb 24, 2023, 4:52:54 PM
+    Created on : Feb 23, 2023, 8:28:56 AM
     Author     : sonnt
 --%>
 
@@ -16,18 +16,18 @@
         <form action="dept" method="GET">
             <c:forEach items="${requestScope.depts}" var="d">
                 <input type="checkbox"
-                       <c:forEach items="${requestScope.dids}" var="p">
-                           <c:if test="${p eq d.did}">
+                       <c:forEach items="${requestScope.dids}" var="did">
+                           <c:if test="${d.id eq did}">   
                                checked="checked"
                            </c:if>
                        </c:forEach>
-                       name="did" value="${d.did}"/> ${d.dname}
+                       name="did" value="${d.id}"/> ${d.name} 
             </c:forEach>
             <br/>
             <input type="submit" value="Search"/>
         </form>
         <c:if test="${requestScope.students ne null}">
-            <table border="1px">
+            <table border="1px"> 
                 <tr>
                     <td>Id</td>
                     <td>Name</td>
@@ -35,20 +35,20 @@
                     <td>Dob</td>
                     <td>Department</td>
                 </tr>
-                <c:forEach items="${requestScope.students}" var="s">
-                    <tr>
-                        <td>${s.sid}</td>
-                        <td>${s.sname}</td>
-                        <td>
-                            <input type="checkbox" 
-                                   <c:if test="${s.gender}">
-                                       checked="checked"
-                                   </c:if>    
-                                   />
-                        </td>
-                        <td><fmt:formatDate type = "date" 
-                                        value = "${s.dob}" /></td>
-                <td>${s.dept.dname}</td>
+                <c:forEach items="${requestScope.students}" var="s" varStatus="loop">
+                    <tr 
+                        <c:if test="${loop.index mod 2 ne 0}">style="background-color: gray;"</c:if>
+                            >
+                            <td>${s.id}</td>
+                        <td>${s.name}</td>
+                        <td><input type="checkbox" 
+                                   <c:if test="${s.gender}">checked="checked"</c:if>
+                                       /></td>
+                            <td>
+                        <fmt:formatDate type = "date" 
+                                        value = "${s.dob}" />
+                </td>
+                <td>${s.dept.name}</td>
             </tr>
         </c:forEach>
     </table>

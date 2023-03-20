@@ -17,6 +17,7 @@ import model.att.Course;
 import model.att.Group;
 import model.att.Room;
 import model.att.Session;
+import model.att.Group;
 import model.att.TimeSlot;
 
 /**
@@ -104,6 +105,73 @@ public class StudentDBContex extends DBContext<Student> {
         }
 
         return atts;
+    }
+
+    public int getStuId(int userid) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        String sql = "SELECT s.sid\n"
+                + "  FROM [dbo].[User] u\n"
+                + "  INNER JOIN Student s on s.userid = u.userid\n"
+                + "  WHERE u.userid = ?";
+        try {
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, userid);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("sid");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentDBContex.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                rs.close();
+                stm.close();
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(StudentDBContex.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return -1;
+    }
+
+    public ArrayList<Group> getCouAttRep(int sid) {
+        ArrayList<Group> studentGroups = new ArrayList<>();
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        String sql = "SELECT g.gid, gname, shortname, cname\n"
+                + "  FROM [dbo].[StudentGroup] sg\n"
+                + "  INNER JOIN Student s ON s.sid = sg.sid\n"
+                + "  INNER JOIN [Group] g ON g.gid = sg.gid\n"
+                + "  INNER JOIN Course c ON g.cid = c.cid\n"
+                + "  WHERE s.sid = ?";
+        try {
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, sid);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Group group = new Group();
+                group.setId(rs.getInt("gid"));
+                group.setName(rs.getString("gname"));
+                Course course = new Course();
+                course.setName(rs.getString("cname"));
+                course.setShortname(rs.getString("shortname"));
+                group.setCourse(course);
+                studentGroups.add(group);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentDBContex.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                rs.close();
+                stm.close();
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(StudentDBContex.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return studentGroups;
     }
 
 }

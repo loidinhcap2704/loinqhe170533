@@ -1,6 +1,6 @@
 <%-- 
     Document   : add
-    Created on : Feb 13, 2023, 10:42:47 AM
+    Created on : Feb 14, 2023, 1:40:50 PM
     Author     : sonnt
 --%>
 
@@ -13,19 +13,16 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <form action="add" method="POST"> 
-            Name: <input type="text" name="sname"/> <br/>
-            Gender: <input type="radio" name="gender" value="male"/> Male
+        <form action="add" method="POST">
+            Name: <input type="text" name="name"/> <br/>
+            Gender: <input type="radio" name="gender" checked="checked" value="male"/> Male 
             <input type="radio" name="gender" value="female"/> Female <br/>
-            Dob : <input type="date" name="dob"/> <br/>
-            Department :
-            <select name="did">
+            Dob: <input type="date" name="dob"/> <br/>
+            Department: <select name="did">
                 <c:forEach items="${requestScope.depts}" var="d">
-                    <option value="${d.did}">${d.dname}</option>
+                    <option value="${d.id}">${d.name}</option>
                 </c:forEach>
-            </select>
-            <br/>
-            Current Term:<input type="number" name="currentTerm"/><br>
+            </select> <br/>
             <input type="submit" value="Save"/>
         </form>
     </body>

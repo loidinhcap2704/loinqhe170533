@@ -4,8 +4,11 @@
  */
 package util.att;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  *
@@ -16,8 +19,7 @@ public class DateTimeHelper {
     public static ArrayList<java.sql.Date> getListDates(java.sql.Date from, java.sql.Date to) {
         ArrayList<java.sql.Date> dates = new ArrayList<>();
         java.sql.Date loop = from;
-        while(loop.compareTo(to) <= 0)
-        {
+        while (loop.compareTo(to) <= 0) {
             dates.add(loop);
             java.util.Date d = convertSqlToUtilDate(loop);
             d = addDays(d, 1);
@@ -50,6 +52,27 @@ public class DateTimeHelper {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
+    }
+
+    public static LocalDate getMondayOfWeek(LocalDate date) {
+        DayOfWeek dayOfWeek = date.getDayOfWeek();
+        int daysUntilMonday = DayOfWeek.MONDAY.getValue() - dayOfWeek.getValue();
+        if (daysUntilMonday > 0) {
+            daysUntilMonday -= 7;
+        }
+        return date.plusDays(daysUntilMonday);
+    }
+
+    public static List<LocalDate> getAllMondaysOfYear(LocalDate monday) {
+        List<LocalDate> mondays = new ArrayList<>();
+        LocalDate date = LocalDate.of(monday.getYear(), 1, 1);
+        while (date.getYear() == monday.getYear()) {
+            if (date.getDayOfWeek() == DayOfWeek.MONDAY) {
+                mondays.add(date);
+            }
+            date = date.plusDays(1);
+        }
+        return mondays;
     }
 
 }

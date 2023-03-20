@@ -1,6 +1,6 @@
 <%-- 
     Document   : update
-    Created on : Feb 13, 2023, 11:02:02 AM
+    Created on : Feb 14, 2023, 2:09:51 PM
     Author     : sonnt
 --%>
 
@@ -13,25 +13,29 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <form action="update" method="POST"> 
-            <input type="hidden" name="sid" value="${param.sid}"/>
-            Name: <input type="text" name="name" value="${student.sname}"/> <br/>
-            Gender: <input type="radio" name="gender" value="male"
-                           ${student.gender?"checked=\"checked\"":""}
-                           /> Male
-            <input type="radio" name="gender" value="female"
-                            ${!student.gender?"checked=\"checked\"":""}
-                   /> Female <br/>
-            Dob : <input type="date" name="dob" value="${student.dob}"/> <br/>
-            Department :
-            <select name="did">
+         <form action="update" method="POST">
+             <input type="hidden" name="sid" value="${param.id}"/>
+             Name: <input type="text" value="${requestScope.s.name}" name="name"/> <br/>
+            Gender: <input type="radio" name="gender" 
+                           <c:if test="${requestScope.s.gender}">
+                           checked="checked" 
+                           </c:if>
+                           value="male"/> Male 
+            <input type="radio" name="gender"
+                           <c:if test="${!requestScope.s.gender}">
+                           checked="checked" 
+                           </c:if>
+                   value="female"/> Female <br/>
+            Dob: <input type="date" name="dob" value="${requestScope.s.dob}"/> <br/>
+            Department: <select name="did">
                 <c:forEach items="${requestScope.depts}" var="d">
-                    <option value="${d.did}" 
-                            <c:if test="${requestScope.student.dept.did eq d.did}">selected="selected"</c:if>
-                            >${d.dname}</option>
+                    <option 
+                        <c:if test="${requestScope.s.dept.id eq d.id}">
+                        selected="selected" 
+                        </c:if>    
+                            value="${d.id}">${d.name}</option>
                 </c:forEach>
-            </select>
-            <br/>
+            </select> <br/>
             <input type="submit" value="Save"/>
         </form>
     </body>
